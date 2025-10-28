@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Happy Birthday</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg1: #fff0f6;
+    --bg2: #ffe0eb;
+    --card: #ffffff;
+    --accent: #ff4081;
+    --muted: #555;
+    --radius: 16px;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg1), var(--bg2));
+  }
+
+  .container {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    top: 30%;
+    transform: translateY(-30%);
+    padding: 20px;
+  }
+
+  h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 64px;
+    color: #ff1493;
+    text-shadow: 0 4px 10px rgba(255, 20, 147, 0.4);
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: var(--muted);
+    margin-bottom: 25px;
+    font-size: 18px;
+  }
+
+  button.play {
+    background: linear-gradient(180deg, var(--accent), #c2185b);
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(255, 64, 129, 0.4);
+    transition: transform 0.2s;
+  }
+
+  button.play:hover {
+    transform: scale(1.05);
+  }
+
+  audio {
+    width: 80%;
+    margin-top: 10px;
+    border-radius: 14px;
+  }
+
+  /* Balloon animation */
+  .balloon {
+    position: absolute;
+    bottom: -150px;
+    width: 50px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #ff4da6;
+    opacity: 0.8;
+    animation: floatUp 8s ease-in infinite;
+  }
+
+  .balloon::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 40px;
+    background: #999;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-110vh) scale(1.1); opacity: 0; }
+  }
+
+  /* Party popper effect (confetti) */
+  .confetti {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: gold;
+    opacity: 0.8;
+    animation: confettiFall 3s linear infinite;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Happy Birthday Cutieeeee💖</h1>
+  <p> I know this is your favorite song 🎶</p>
+
+  <audio id="player" controls preload="auto">
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+  <br>
+  <button id="playBtn" class="play">▶ Play Song</button>
+</div>
+
+<script>
+  const player = document.getElementById('player');
+  const playBtn = document.getElementById('playBtn');
+
+  // Play button action
+  playBtn.addEventListener('click', async () => {
+    try {
+      await player.play();
+      playBtn.style.display = 'none';
+      createConfetti();
+      createBalloons();
+    } catch (e) {
+      alert('Gaana nahi baj raha 😅. Check URL or phone sound settings.');
+    }
+  });
+
+  // Balloons
+  function createBalloons() {
+    for (let i = 0; i < 10; i++) {
+      const balloon = document.createElement('div');
+      balloon.classList.add('balloon');
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.backgroundColor = randomColor();
+      balloon.style.animationDuration = 6 + Math.random() * 5 + 's';
+      document.body.appendChild(balloon);
+
+      setTimeout(() => balloon.remove(), 10000);
+    }
+  }
+
+  // Confetti (party popper)
+  function createConfetti() {
+    for (let i = 0; i < 40; i++) {
+      const conf = document.createElement('div');
+      conf.classList.add('confetti');
+      conf.style.left = Math.random() * 100 + 'vw';
+      conf.style.background = randomColor();
+      conf.style.width = conf.style.height = Math.random() * 8 + 4 + 'px';
+      conf.style.animationDuration = 2 + Math.random() * 3 + 's';
+      document.body.appendChild(conf);
+
+      setTimeout(() => conf.remove(), 3000);
+    }
+  }
+
+  function randomColor() {
+    const colors = ['#ff4da6', '#ffb6c1', '#ff69b4', '#ff1493', '#ffa07a', '#ffd700', '#98fb98', '#87cefa'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+</script>
+
+</body>
+</html>
